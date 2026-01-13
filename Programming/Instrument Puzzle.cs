@@ -9,26 +9,28 @@ public class InstrumentPuzzle : MonoBehaviour
   
 private void Start() 
   { 
-  playerCamera = Camera.main; 
+    playerCamera = Camera.main; 
   } 
 
 private void Update() 
 { 
   if (Input.GetKeyDown(KeyCode.F)) 
-    { 
+    {
+    
     if (heldInstru == null) 
     { 
-    HoldingInstru(); 
+      HoldingInstru(); 
     } 
     
     else 
-    { 
+    {
+    
     if (!PlacingInstru()) 
-    { 
-    DropInstru(); 
+      { 
+        DropInstru(); 
+      } 
     } 
   } 
-} 
 } 
 
 public void HoldingInstru() 
@@ -40,11 +42,12 @@ if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forw
 
 if (hit.collider.CompareTag("Instrument")) 
 { 
-heldInstru = hit.collider.gameObject; 
-heldInstruRb = heldInstru.GetComponent<Rigidbody>(); 
-heldInstruRb.isKinematic = true; 
-heldInstru.transform.SetParent(playerCamera.transform); 
-heldInstru.transform.localPosition = new Vector3(0, -0.5f, 1); 
+    heldInstru = hit.collider.gameObject; 
+    heldInstruRb = heldInstru.GetComponent<Rigidbody>(); 
+    heldInstruRb.isKinematic = true; 
+    
+    heldInstru.transform.SetParent(playerCamera.transform); 
+    heldInstru.transform.localPosition = new Vector3(0, -0.5f, 1); 
     } 
   } 
 } 
@@ -53,59 +56,68 @@ public bool PlacingInstru()
 { 
 RaycastHit hit; 
 
-if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 10f)) 
-{ 
-if (hit.collider.CompareTag("InstrumentSlot")) 
-{ 
+  if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 10f)) 
+  { 
+    if (hit.collider.CompareTag("InstrumentSlot")) 
+  { 
+  
 InstrumentSlot slot = hit.collider.GetComponent<InstrumentSlot>(); 
 InstrumentID instrumentID = heldInstru.GetComponent<InstrumentID>();
 
 if (slot.InstrumentID == instrumentID.InstruID) 
 { 
-slot.PlaceInstru(heldInstru); heldInstru.transform.SetParent(slot.transform, true); 
-heldInstru.transform.position = slot.transform.position; 
-heldInstru.transform.rotation = slot.transform.rotation; 
-heldInstru.transform.localScale = Vector3.one; 
-heldInstru.GetComponent<Rigidbody>().isKinematic = true; 
-heldInstru = null; heldInstruRb = null; return true; 
+    slot.PlaceInstru(heldInstru); heldInstru.transform.SetParent(slot.transform, true); 
+    
+    heldInstru.transform.position = slot.transform.position; 
+    heldInstru.transform.rotation = slot.transform.rotation; 
+    
+    heldInstru.transform.localScale = Vector3.one; 
+    
+    heldInstru.GetComponent<Rigidbody>().isKinematic = true; 
+    
+    heldInstru = null; heldInstruRb = null; return true; 
       } 
     } 
 } 
+
 return false; 
+
 } 
 
 public void DropInstru() 
-{ 
-if (heldInstru != null) 
-{ 
+  { 
+    if (heldInstru != null) 
+  { 
 
 heldInstru.transform.SetParent(null); 
 
 if (heldInstruRb != null) 
-{ 
-heldInstruRb.isKinematic = false; 
-} 
+  { 
+    heldInstruRb.isKinematic = false; 
+  } 
+  
 heldInstru = null; 
 heldInstruRb = null; 
+
     } 
-   } 
+  } 
 }
 
 public class InstrumentSlot : MonoBehaviour
 { 
-public int InstrumentID; 
-public static event System.Action InstrumentPlacedEvent;  
+  public int InstrumentID; 
+  public static event System.Action InstrumentPlacedEvent;  
 
 public void PlaceInstrument(GameObject InstruObj) 
 { 
-InstrumentID instrumentID = InstruObj.GetComponent<InstrumentID>(); 
+  InstrumentID instrumentID = InstruObj.GetComponent<InstrumentID>(); 
 
 if (instrumentID != null && instrumentID.instruID == InstrumentID) 
 { 
-InstruObj.transform.SetParent(transform); 
-InstruObj.transform.localPosition = Vector3.zero; 
-InstruObj.transform.localRotation = Quaternion.identity; 
-InstruObj.GetComponent<Rigidbody>().isKinematic = true; 
+    InstruObj.transform.SetParent(transform); 
+    InstruObj.transform.localPosition = Vector3.zero; 
+    InstruObj.transform.localRotation = Quaternion.identity; 
+    InstruObj.GetComponent<Rigidbody>().isKinematic = true; 
 
 if (InstrumentPlacedEvent != null) { InstrumentPlacedEvent.Invoke(); 
       } 
