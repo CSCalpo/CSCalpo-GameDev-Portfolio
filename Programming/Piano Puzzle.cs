@@ -1,4 +1,5 @@
-public class PianoPuzzle: MonoBehaviour { 
+public class PianoPuzzle: MonoBehaviour 
+{ 
   private GameObject heldKey = null; 
   private Rigidbody heldKeyRb; 
   private Camera playerCamera; 
@@ -56,7 +57,9 @@ public class PianoPuzzle: MonoBehaviour {
   } 
   
   public bool PlacingKey() 
-  { RaycastHit hit; 
+  { 
+  
+  RaycastHit hit; 
    
    if 
      (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 3f)) 
@@ -67,7 +70,8 @@ public class PianoPuzzle: MonoBehaviour {
        PianoKey key = heldKey.GetComponent<PianoKey>(); 
        
        if (slot.correctKeyID == key.keyID) 
-       { slot.PlaceKey(heldKey); 
+       { 
+        slot.PlaceKey(heldKey); 
         heldKey.transform.SetParent(slot.transform, true); 
         
         heldKey.transform.position = slot.transform.position; 
@@ -83,7 +87,9 @@ public class PianoPuzzle: MonoBehaviour {
        } 
      } 
    } 
+   
    return false; 
+   
   } 
   
   public void DropKey() 
@@ -148,25 +154,26 @@ void Start()
 
 if (journalObjective != null) 
   { 
-  journalObjective.Objective1(); 
+    journalObjective.Objective1(); 
   } 
 } 
 
 void puzzleComplete() 
   { 
-  placedKeys++; 
+    placedKeys++; 
 
 if (placedKeys >= totalKeys) 
   { 
-  playPianoPanel.SetActive(true); 
-  Cursor.lockState = CursorLockMode.None; 
-  Cursor.visible = true; 
-  playerMove.canMove = false; 
-  Time.timeScale = 0f; 
+    playPianoPanel.SetActive(true); 
+    Cursor.lockState = CursorLockMode.None; 
+    Cursor.visible = true; 
+    
+    playerMove.canMove = false; 
+    Time.timeScale = 0f; 
 
 if (journalObjective != null) 
     { 
-    journalObjective.Objective2(); 
+      journalObjective.Objective2(); 
     } 
   } 
 } 
@@ -178,7 +185,7 @@ void OnDestroy()
 
 public void playCassiopea() 
   { 
-  Time.timeScale = 1.0f; SceneManager.LoadSceneAsync(2); 
+    Time.timeScale = 1.0f; SceneManager.LoadSceneAsync(2); 
   } 
 }
 
