@@ -1,4 +1,4 @@
-public class PianoPuzzle: MonoBehaviour { //to be placed on Piano piece object
+public class PianoPuzzle: MonoBehaviour { 
   private GameObject heldKey = null; 
   private Rigidbody heldKeyRb; 
   private Camera playerCamera; 
@@ -61,7 +61,7 @@ public class PianoPuzzle: MonoBehaviour { //to be placed on Piano piece object
    if 
      (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hit, 3f)) 
    { 
-     if (hit.collider.CompareTag("KeySlot")) //script to be added to key slot object
+     if (hit.collider.CompareTag("KeySlot")) 
      { 
        KeySlot slot = hit.collider.GetComponent<KeySlot>(); 
        PianoKey key = heldKey.GetComponent<PianoKey>(); 
@@ -128,6 +128,10 @@ if (keyID != null && slot.correctKeyID == key.keyID)
   } 
 }
 
+public class KeyID : MonoBehaviour //to be placed on piano piece
+{ 
+  public int keyID; 
+}
 
 public class playPiano : MonoBehaviour //sample script that prompts player to 'play' piano when puzzle is complete
 { 
